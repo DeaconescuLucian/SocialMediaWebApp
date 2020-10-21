@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="/static/css/main.css">
+<title>Posts</title>
+
+{% endblock %}
+
+
+{% block body %}
+
+<br>
+<br>
+<form action="" method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col col-lg-6 bg-dark rounded">
+                    <div class="form-group">
+                        <br>
+                        {{form.content.label(class="form-control-label")}}
+                        <br>
+                        {{form.content(class="form-control form-control-lg")}}
+                    </div>
+                        </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col col-lg-6 bg-dark rounded">
+                    <div class="form-group ">
+                        <a class="text-light ml-3" href="#">
+                            {{form.image.label(class="form-control-label")}}
+                        </a>
+                        {{form.image(class="form-control-file d-none")}}
+                    </div>
+                        </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col col-lg-6 bg-dark rounded">
+                    <div class="form-group">
+
+                        <button type=submit class="btn mr-auto display-4 "><span class="text-light" style="font-family:helvetica;">Send<img style="width:25px; height: 25px;" src="{{url_for('static',filename='icons/'+'send1.png')}}"></span></button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+<br>
+    {% for i in range(no_posts) %}
+        <div class="container rounded">
+            <div class="row justify-content-center">
+                <div class="col col-lg-6 bg-dark rounded">
+                    {% if posts[i] %}
+                        <br>
+                        <a class="text-light" href="/profile/{{posts[i].author.id}}"><h2 class="mr-3"><img class="rounded-circle account-img mr-3" style="width:35px; height: 35px;" src="{{ url_for('static',filename='profile_pics/' + posts[i].author.image_file) }}">{{posts[i].author.username}}</h2></a>
+                        <h3>{{posts[i].title}}</h3>
+                        <p style="white-space:pre-wrap">{{posts[i].content}}</p>
+                        {% if posts[i].image %}
+                            <img class="rounded w-100 h-30" src="{{ url_for('static',filename='post_pics/' + posts[i].image) }}">
+                        {% endif %}
+                    {% endif %}
+                        <hr style="border-top: 1px solid #343a40 ; background: transparent;">
+                </div>
+                <br>
+            </div>
+        </div>
+        <hr style="border-top: 1px solid #181A1A ; background: transparent;">
+    {% endfor %}
+
+{% endblock %}

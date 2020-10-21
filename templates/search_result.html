@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Search Results</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <br>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col col-lg-8 rounded bg-dark d-inline">
+                <br>
+                <h1>Search Results: <span class=""><img style="width:25px; height: 25px;" src="{{url_for('static',filename='icons/'+'search2.png')}}"></span></h1>
+                {% if ln==0 %}
+                <br>
+                <h3>Sorry,There are no results available for you search.</h3>
+                {% endif %}
+                <hr style="border-top: 1px solid #343a40 ; background: transparent;">
+            </div>
+        </div>
+        <hr style="border-top: 1px solid #181A1A ; background: transparent;">
+        {% if ln>0 %}
+        {% for user in matched_users %}
+            <div class="row justify-content-center">
+                <div class="col col-lg-8 rounded bg-dark">
+                    <br>
+                <a class="text-light" href="/profile/{{user.id}}"><h4 class="mr-3"><img class="rounded-circle account-img mr-3" style="width:35px; height: 35px;" src="{{ url_for('static',filename='profile_pics/' + user.image_file) }}">{{user.username}}</h4></a>
+                    <br>
+                    {% set look=namespace(found=false) %}
+                    {% for fr in friendships %}
+                        {% if current_user.id!=user.id %}
+                            {% if fr.user1_id==current_user.id and fr.user2_id==user.id and fr.status==1 %}
+                            <h5>You are friends.</h5>
+                                <br>
+                                <a class="text-light" href="/delete_friendship/{{current_user.id}}/{{user.id}}"><img src="{{remove_icon}}" style="width:24px; height: 24px;">Unfriend</a>
+                                {%  set look.found=true %}
+                            {% elif fr.user1_id==user.id and fr.user2_id==current_user.id and fr.status==0 %}
+                                <h5>{{user.username}} wants to be your friend.</h5>
+                                <br>
+                                <a class="text-light" href="/accept_friendship/{{fr.id}}"><img src="{{add_icon}}" style="width:24px; height: 24px;">Accept</a>
+                                <a class="text-light" href="/ignore_friendship/{{fr.id}}"><img src="{{remove_icon}}" style="width:24px; height: 24px;">Ignore</a>
+                                {%  set look.found=true %}
+                            {% elif fr.user1_id==current_user.id and fr.user2_id==user.id and fr.status==0 %}
+                                <h5>Friend request has been sent.</h5>
+                                <br>
+                                <a class="text-light" href="/ignore_friendship/{{fr.id}}"><img src="{{remove_icon}}" style="width:24px; height: 24px;">Cancel Friend Request</a>
+                                {%  set look.found=true %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if look.found==false and current_user.id!=user.id %}
+                        <br>
+                        <h5>You are not friends yet.</h5>
+                        <a class="text-light" href="/add_friendship/{{current_user.id}}/{{user.id}}"><img  src="{{add_icon}}" style="width:24px; height: 24px;">Send Friend Request</a>
+                    {% endif %}
+                <hr style="border-top: 1px solid #343a40 ; background: transparent;">
+                </div>
+            </div>
+        <hr style="border-top: 1px solid #181A1A ; background: transparent;">
+        {% endfor %}
+        {% endif %}
+    </div>
+    {% for user in matched_users %}
+
+    {% endfor %}
+{% endblock %}

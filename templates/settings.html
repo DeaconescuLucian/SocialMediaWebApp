@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{form.hidden_tag()}}
+        <fieldset class="form-group">
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="container">
+                <br>
+                <br>
+                {% with messages=get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category,message in messages %}
+                            <div class="row justify-content-center">
+                                <div class="alert alert-{{category}}">
+                                {{message}}
+                            </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <div class="row justify-content-center ">
+
+                    <div class="col-md-4 col-sm-6 bg-dark rounded">
+                                    <br>
+            <br>
+            <br>
+                    <h1>Settings</h1>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 col-sm-6 bg-dark rounded">
+                    <div class="form-group">
+                        {{form.username.label(class="form-control-label")}}
+                        {% if form.username.errors %}
+                        {{form.username(class="form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{form.username(class="form-control form-control-lg")}}
+                        {% endif %}
+                    </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 col-sm-6 bg-dark rounded">
+                    <div class="form-group">
+                    {{ form.picture.label() }}
+                    {{ form.picture(class="form-control-file") }}
+                    {% if form.picture.errors %}
+                        {% for error in form.picture.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        </br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                </div>
+                </div>
+                 <div class="row justify-content-center">
+                     <div class="col-md-4 col-sm-6 bg-dark rounded">
+                    <div class="form-group">
+                        {{form.email.label(class="form-control-label")}}
+                        {% if form.email.errors %}
+                            {{form.email(class="form-control form-control-lg is-invalid")}}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{form.email(class="form-control form-control-lg")}}
+                        {% endif %}
+                    </div>
+                </div>
+                 </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 col-sm-6 bg-dark rounded">
+                    <div class="form-group">
+                    {{form.dob.label(class="form-control-label")}}
+                    {% if form.dob.errors %}
+                        {{form.dob(class="form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.dob.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.dob(class="form-control form-control-lg")}}
+                    {% endif %}
+                    </div>
+                </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 col-sm-6 bg-dark rounded">
+                    <div class="form-group">
+                        {{form.job.label(class="form-control-label")}}
+                         {% if form.job.errors %}
+                            <div class="invalid-feedback">
+                            {{form.job(class="form-control form-control-lg is-invalid")}}
+                            {% for error in form.job.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                         </div>
+                        {% else %}
+                            {{form.job(class="form-control form-control-lg")}}
+                        {% endif %}
+                    </div>
+                </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 col-sm-6 bg-dark rounded">
+                    <div class="form-group">
+                        {{form.home.label(class="form-control-label")}}
+                        {{form.home(class="form-control form-control-lg")}}
+                    </div>
+                </div>
+                </div>
+                <div class="row justify-content-center ">
+                    <div class="col-md-4 col-sm-6 bg-dark rounded">
+                        <div class="form-check">Gender:
+                        {{form.gender}}
+                        </div>
+                </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 col-sm-6 bg-dark rounded">
+                    <div class="form-group">
+                        {{form.submit(class="btn btn-outline-info")}}
+                    </div>
+                </div>
+                </div>
+                <hr style="border-top: 1px solid #181A1A ; background: transparent;">
+                <hr style="border-top: 1px solid #181A1A ; background: transparent;">
+            </div>
+
+
+        </fieldset>
+    </form>
+
+{% endblock %}

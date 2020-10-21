@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+{% block body %}
+     <br>
+     <br>
+     <div class="container">
+         <div class="row justify-content-start">
+             <div class="col-lg-8  rounded">
+                 <div class="row justify-content-start">
+                    <div class="col-lg-4 d-none d-lg-block rounded">
+                        <div class="container bg-dark rounded">
+                          <ul class="list-group">
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                              <h5>This is side box 1</h5>
+                          </ul>
+                      </div>
+                    </div>
+            <div class="col-lg-8 col-sm-12   rounded">
+            <div class="row justify-content-end">
+            <div class="col-lg-12 col-sm-12  bg-dark rounded">
+          <br>
+          <div class="media">
+            <img class="rounded-circle border border-light" style="width:125px; height: 125px;" src="{{ image_file }}">
+            <div class="media-body">
+                <div class="d-flex d-inline">
+                <h4 >{{ user.username }}</h4>
+                </div>
+                <p class="text-secondary">{{ user.email }}</p>
+              {% if current_user.id==user.id %}
+              <a href="/settings"><span class="glyphicon glyphicon-cog "></span> Settings
+              </a>
+              {% endif %}
+
+            </div>
+              </div>
+          </div>
+
+         </div>
+
+         <div class="row justify-content-end">
+             <div class="col-lg-12  bg-dark rounded">
+                 <br>
+                 {% if user.home %}
+                    <h5 class="text-light ">Lives in {{user.home}}. </h5>
+                 {% endif %}
+             </div>
+         </div>
+         <div class="row justify-content-end">
+             <div class="col-lg-12  bg-dark rounded">
+                 {% if user.job %}
+                    <h5 class="text-light">Works at {{user.job}}. </h5>
+                 {% endif %}
+             </div>
+         </div>
+         <div class="row justify-content-end">
+             <div class="col-md-12  bg-dark rounded">
+                 {% if user.dob %}
+                    <h5 class="text-light">Born on {{user.dob.strftime('%Y-%m-%d')}}. </h5>
+                 {% endif %}
+             </div>
+         </div>
+         <div class="row justify-content-end">
+             <div class="col-lg-12 bg-dark rounded">
+                 <h5 class="text-light">Gender: {{user.gender}}</h5>
+                 <hr style="border-top: 1px solid #343a40 ; background: transparent;">
+             </div>
+
+         </div>
+          <div class="row justify-content-end">
+             <div class="col-lg-12 bg-dark rounded">
+                 <h5 class="text-light">Friends: {{user.friends}}</h5>
+                 <hr style="border-top: 1px solid #343a40 ; background: transparent;">
+                 {% if current_user.id!=user.id %}
+                    <div class="d-flex ">
+                        {% if friendship1 or friendship2 %}
+                            {% if friendship1.status==0 %}
+                            <a class="text-light" href="/ignore_friendship/{{friendship1.id}}"><img src="{{remove_icon}}" style="width:24px; height: 24px;">Cancel Friend Request</a>
+                            {% elif friendship1.status==1 %}
+                            <a class="text-light" href="/delete_friendship/{{current_user.id}}/{{user.id}}"><img src="{{remove_icon}}" style="width:24px; height: 24px;">Unfriend</a>
+                            {% elif friendship2.status==0 %}
+                            <a class="text-light" href="/accept_friendship/{{friendship2.id}}"><img src="{{add_icon}}" style="width:24px; height: 24px;">Accept</a>
+                            <a class="text-light" href="/ignore_friendship/{{friendship2.id}}"><img src="{{remove_icon}}" style="width:24px; height: 24px;">Ignore</a>
+                            {% endif %}
+                        {% else %}
+                        <a class="text-light" href="/add_friendship/{{current_user.id}}/{{user.id}}"><img  src="{{add_icon}}" style="width:24px; height: 24px;">Send Friend Request</a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                 <hr style="border-top: 1px solid #343a40 ; background: transparent;">
+             </div>
+
+
+         </div>
+                 <hr style="border-top: 1px solid #181A1A; background: transparent;">
+        {% for post in posts %}
+            {% if post.user_id==user.id %}
+                <div class="row justify-content-end">
+                    <div class="col bg-dark rounded">
+                        <br>
+                        <h2 class="mr-3"><img class="rounded-circle account-img mr-3 border border-light" style="width:55px; height: 55px;" src="{{ image_file }}">{{user.username}}</h2>
+                </div>
+                </div>
+                <div class="row justify-content-end">
+                   <div class="col-lg-12  bg-dark rounded">
+                    <br>
+                    <p style="white-space:pre-wrap">{{post.content}}</p>
+                    {% if post.image %}
+                            <img class="rounded w-100 h-30" src="{{ url_for('static',filename='post_pics/' + post.image) }}">
+                        {% endif %}
+                       <hr style="border-top: 1px solid #343a40; background: transparent;">
+                       {% if user.id==current_user.id %}
+                       <a  href="/posts/delete//{{post.id}}" role="button"><img src="{{url_for('static',filename='icons/'+'bin1.png')}}"><span class="ml-3 text-light" style="font-size:16px;">Delete</span></a>
+                       {% endif %}
+                    <hr style="border-top: 1px solid #343a40 ; background: transparent;">
+                   </div>
+                </div>
+                 <hr style="border-top: 1px solid #181A1A; background: transparent;">
+            {% endif %}
+        {% endfor %}
+            </div>
+                </div>
+             </div>
+
+             <div class="col-lg-4 d-none d-lg-block">
+          <div class="container  rounded">
+              {% if user.id==current_user.id %}
+              <div class="row justify-content-center bg bg-dark rounded">
+                  <div class="col-12">
+                      <h4>Friend Requests</h4>
+                      <br>
+                      {% if requests==0 %}
+                        <h6>You have no friend requests.</h6>
+                      {% elif requests==1 %}
+                        <h5>You have a friend request.</h5>
+                      {% else %}
+                      <h6>You have {{requests}} friend requests.</h6>
+                      {% endif %}
+                      <hr style="border-top: 1px solid #343a40 ; background: transparent;">
+                  </div>
+              </div>
+              <hr style="border-top: 1px solid #181A1A ; background: transparent;">
+                {% endif %}
+              {% for fr in friendships %}
+                {% if fr.user2_id==current_user.id and user.id==current_user.id %}
+                    {% if fr.status==0 %}
+                        {% for i in all_users %}
+                            {% if i.id==fr.user1_id %}
+                                <div class="row justify-content-center bg bg-dark rounded">
+                                    <hr style="border-top: 1px solid #343a40 ; background: transparent;">
+                                  <div class="col-12">
+                                      <br>
+                                <a class="text-light" href="/profile/{{i.id}}"><h4 class="mr-3"><img class="rounded-circle account-img mr-3" style="width:35px; height: 35px;" src="{{ url_for('static',filename='profile_pics/' + i.image_file) }}">{{i.username}}</h4></a>
+                                <br>
+                                <a class="text-light" href="/accept_friendship/{{fr.id}}"><img  src="{{add_icon}}" style="width:24px; height: 24px;">Accept</a>
+                                <a class="text-light" href="/ignore_friendship/{{fr.id}}"><img  src="{{remove_icon}}" style="width:24px; height: 24px;">Ignore</a>
+                                      <hr style="border-top: 1px solid #343a40 ; background: transparent;">
+                                  </div>
+                                </div>
+                                <hr style="border-top: 1px solid #181A1A ; background: transparent;">
+
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+              {% endfor %}
+          </div>
+        </div>
+             </div>
+         </div>
+</div>
+{% endblock %}
